@@ -3,7 +3,7 @@ const { config } = require('../config/index');
 
 const getManifest = () => {
   try {
-    if (config.dev === 'development') {
+    if (config.dev !== 'development') {
       return JSON.parse(
         fs.readFileSync(`${__dirname}/public/manifest.json`, 'utf8')
       );
