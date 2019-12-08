@@ -1,3 +1,22 @@
+<div align="center">
+  <h1>Backend For Frontend</h1>
+  <img src="./backendforfrontend_info.jpg" alt="passport logo" />
+</div>
+
+## Tabla de contenido
+
+- [¿Qué es Backend for Frontend?](#qué-es-backend-for-frontend)
+- [Múltiples versiones de Node con NVMRC](#múltiples-versiones-de-node-con-nvmrc)
+- [Redux Thunk](#redux-thunk)
+- [Test](#configuración-de-filemocks-y-stylemocks)
+  - [Configuración de fileMocks y styleMocks](#configuración-de-filemocks-y-stylemocks)
+  - [Implementando pruebas en el footer](#implementando-pruebas-en-el-footer)
+  - [Creando Mocks del Store](#creando-mocks-del-store)
+  - [Probando el envío del formulario](#probando-el-envío-del-formulario)
+  - [Probando acciones](#probando-acciones)
+  - [Probando Gravatar function](#probando-gravatar-function)
+  - [Jest Coverage](#jest-coverage)
+
 ## ¿Qué es Backend for Frontend?
 
 Cuando las organizaciones empezaron a construir software a medida estos eran programas que se llamaban unas ha otras, había mucho, mucho código espaguetti imposible de leer, el proceso de creación de software ha evolucionado y con la creación de patrones de diseño cada vez más sofisticados, las aplicaciones han dejado de estar tan acopladas, esto ha permitido a los desarrolladores crear más y mejores funcionalidades, comenzaron ha desacoplar el código de manera que las funcionalidades más grandes conformaban capas de componentes nuevamente altamente acopladas, pero que permitían el desarrollo de nuevas funcionalidades sin que estás necesariamente afectarán otras capas sin embargo estó precenta un problema muy grave, porque al momento de crear nuevas funcionalidades había que estár copiando y pegando código que es una muy mala práctica porque presenta problemas de rendimiento, es aquí donde se implementan arquitecturas de servicios y microservicios que permiten construir funcionalidades entre capas, con esté modelo se pueden compartir capas y reuzar lógica. 
@@ -23,6 +42,10 @@ En está clase vamos a estar revisando, hasta ahora que es lo que tenemos y los 
 
 Para los siguientes pasos debemos traer el código del curso de server side rendering, porque en esté curso vamos a implementar todo los modulos que hicimos a lo largo de la escuela.
 
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
+
 ### Múltiples versiones de Node con NVMRC
 
 Vamos a usar una librería que se llama NVM la cuál nos permite usar múltiples versiones de Node solo ejecutando un comando, porque aveces necesitamos crear un proyecto que tiene que tener una versión especifica de node o que tiene que hacer un atach porque puede variar mucho una versión de Node a otra, para prever estó tenemos que crear un archivo ``.nvmrc`` y aquí es donde vamos a manejar el Node al que vamos a hacer atach, para poder hacer estó creamos como ya lo dijimos hace un momento el archivo nvm.
@@ -36,7 +59,11 @@ Una vez hecho estó podemos comprobar la versión de node haciendo ``node -v``
 
 Un **Thunk es una función que está dentro de una función**, esto es una función común pero en esté caso lo especial de está funcion es que está funcion está siendo retornada a esa función y Redux Thunk lo que hace con esté Thunk es hacerle un atach o un bind de la función dispatch para poder despachar acciones y la función getState, estó nos garantiza que cuando estemos trabajando con funciones asincronas, en esté caso cuando vamos a hacer la petición de nuestro inicio de sessión o de nuestro registro de usuario tenemos que seguir ciertos pasos, si estamos haciendo la petición al incio de sesión, todo está bien, luego vamos a tener que ejecutar o despachar otra acción, que va ha ser la que va ha settear el estado de nuestro store, y si quisieramos en algún otro momento cambiar algún otro estado, podemos hacerlo agregando un then o un try catch y en ese caso despachamos otra acción, de igual forma si ocurre algún error podemos settear un action que tenga que ver con errores que maneje nuestros errores y despachamos esa acción, para nuestro errores.
 
-### Intalación
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
+
+### Instalación
 
 ``npm redux-thunk``
 ``yarn add redux-thunk``
@@ -45,6 +72,9 @@ Despues de la instalación vamos a iniciar el proceso de configuración de esté
 
 **applyMiddleware**: Lo que hace es aplicar el middleware de redux-thunk  
 
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
 
 ## Configuración de fileMocks y styleMocks
 
@@ -81,6 +111,9 @@ styleMock.js
 module.exports = {};
 ```
 
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
 
 ## Implementando pruebas en el footer
 
@@ -138,6 +171,10 @@ con esta instrucción compara si esté elemento html contiene la clase footer.
 ```
 
 Ahora podemos correr nuestros test con el comando test que agregamos al principio.
+
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
 
 ## Creando Mocks del Store
 
@@ -214,7 +251,11 @@ describe('Carousel component', () => {
 });
 ```
 
-## Provando el envío del formulario
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
+
+## Probando el envío del formulario
 
 Ahora vamos a comprobar nuestro componente de registro no hallá cambios, y despues vamos a probar el formulario del registro para que cuando hagamos submit, o click en el botón submit lleguemos a nuestra función de envió de formulario, para esto lo que tenemos que hacer es ir a container que es donde tenemos nuestro formulario de registro.
 
@@ -265,6 +306,10 @@ En donde vamos a utilizar una función para regenerar snapshots.
 Presionamos u (To update failling snapshots)
 y se actualizan todos los snapshots.
 
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
+
 ## Probando acciones
 
 Ha llegado el momento de probar nuestras acciones y para esto lo que tenemos que hacer es lo que hemos venido haciendo todo esté tiempo, creando nuestro folder de `__test__` dentro de la carpeta de nuestras acciones, aquí adentro vamos a escribir "actions.test.js". Un test muy sencillo que podemos probar es que al momento de enviar una accion o despachar una accion con ciertos datos se apruebe que está enviando el mismo tipo y el mismo payload que estemos enviando en está función, para esto vamos a probar con un mock que será un MovieMock.js
@@ -305,6 +350,9 @@ describe('Actions', () => {
   });
 });
 ```
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
 
 ## Probando Gravatar function
 
@@ -327,7 +375,11 @@ describe('Gravatar function', () => {
 
 Si nos damos cuenta los test siguen un patron bastante sencillo: es un string, una function, lo único que cambia es el expect que también es una function.
 
-## Jest Coverages
+<div align="right">
+  <small><a href="#tabla-de-contenido">🡡 volver al inicio</a></small>
+</div>
+
+## Jest Coverage
 
 Vamos a revizar con un pequeño reporte que vamos a generar con la ayuda de jest coverages, cual es el alcance de nuestro proyecto en pruebas y como podríamos implementar más, para eso sencillamente debemos ir a nuestro packages.json y añadir un comando más, esté comando que vamos a estar agregando vamos a decir que es coverage.
 
