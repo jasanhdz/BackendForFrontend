@@ -1,12 +1,12 @@
 const express = require('express');
 const webpack = require('webpack');
 const helmet = require('helmet');
-const main = require('./routes/main');
+const axios = require('axios');
+const passport = require('passport');
+const boom = require('@hapi/boom');
+const cookieParser = require('cookie-parser');
 const { config } = require('../config');
-const axios = require("axios");
-const passport = require("passport");
-const boom = require("@hapi/boom");
-const cookieParser = require("cookie-parser");
+const main = require('./routes/main');
 
 const app = express();
 
@@ -43,23 +43,38 @@ if (config.dev === 'development') {
   app.disable('x-powered-by');
 }
 
-app.post("/auth/sign-in", async function(req, res, next) {
-  passport.authenticate("basic", async function(error, data) {
+// Basic Strategy
+require('./utils/auth/strategies/basic');
+
+// OAuth2 Strategy
+require('./utils/auth/strategies/oauth');
+
+// Twitter Strategy
+require('./utils/auth/strategies/twitter');
+
+// Facebook Strategy
+require('./utils/auth/strategies/facebook');
+
+
+app.post('/auth/sign-in', async (req, res, next) => {
+  passport.authenticate('basic', async (error, data) => {
     try {
+      console.log(data);
       if (error || !data) {
-        next(boom.unauthorized("Error la data viene vacía :("));
+        next(boom.unauthorized('Error la data viene vacía :('));
       }
 
-      req.login(data, { session: false }, async function(error) {
+      req.login(data, { session: false }, async (error) => {
         if (error) {
           next(error);
         }
 
         const { token, ...user } = data;
 
-        res.cookie("token", token, {
+        res.cookie('token', token, {
           httpOnly: config.dev !== 'development',
-          secure: config.dev !== 'development'
+          secure: config.dev !== 'development',
+          domain: 'moviesfantansty.com',
         });
 
         res.status(200).json(user);
@@ -70,26 +85,44 @@ app.post("/auth/sign-in", async function(req, res, next) {
   })(req, res, next);
 });
 
-
-app.post("/auth/sign-up", async function(req, res, next) {
+app.post('/auth/sign-up', async (req, res, next) => {
   const { body: user } = req;
   try {
+    // console.log(config.apiUrl);
     await axios({
       url: `${config.apiUrl}/api/auth/sign-up`,
-      method: "post",
-      data: user
+      method: 'post',
+      data: user,
     });
-
     res.status(201).json({
       name: req.body.name,
       email: req.body.email,
-      id: userData.data.data,
+      // id: userData,
     });
   } catch (error) {
     next(error);
   }
 });
 
+app.post('/api/movies/:movieId', async (req, res, next) => {
+  console.log('Esto trae el request................................');
+  const { movieId } = req.params;
+  const { id, token } = req.cookies;
+  console.log(movieId, id);
+  try {
+    await axios({
+      url: `${config.apiUrl}/api/movies/${movieId}`,
+      method: 'post',
+      headers: { Authorization: `Bearer ${token}` },
+      // body: {_id: id}
+    })
+    res.status(201).json({
+      ok: 'TODO bien',
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 app.get('*', main);
 
